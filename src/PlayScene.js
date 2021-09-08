@@ -1,46 +1,34 @@
 import Phaser from 'phaser';
 
 export default class PlayScene extends Phaser.Scene {
-  constructor () {
+  constructor() {
     super({
       key: 'play',
       physics: {
         arcade: {
-          gravity: { y: 300 },
           debug: false
         }
       }
     });
   }
 
-  create () {
-    this.add.image(400, 300, 'space');
-
-    var emitter = this.add.particles('red')
-      .createEmitter({
-        speed: 100,
-        scale: { start: 1, end: 0 },
-        blendMode: 'ADD'
-      });
-
-    var logo = this.physics.add.image(400, 100, 'logo')
-      .setVelocity(100, 200)
-      .setBounce(1, 1)
-      .setCollideWorldBounds(true);
-
-    emitter.startFollow(logo);
-
-    this.input.keyboard
-      .on('keydown-R', function () {
-        this.scene.restart();
-      }, this)
-      .on('keydown-Q', function () {
-        this.scene.stop().run('menu');
-      }, this)
-      .on('keydown-K', function () {
-        this.scene.stop().run('end');
-      }, this);
+  create() {
+    const { width, height } = this.sys.game.canvas;
+    const ball = this.add.circle(width / 2, height / 2, 75, 0x000000);
+    this.physics.add.existing(ball);
+    ball.body.setBounce(1, 1).setCollideWorldBounds(true);
+    const startingVelocity = this.getRandomVelocity();
+    ball.body.setVelocityX(startingVelocity.x);
+    ball.body.setVelocityY(startingVelocity.y);
   }
 
-  update () {}
+  update() {}
+
+  getRandomVelocity() {
+    const seed = { x: Math.random(), y: Math.random() };
+    let velocity = {};
+    velocity.x = seed.x < 0.5 ? seed.x * 200 * -1 : seed.x * 200;
+    velocity.y = seed.y < 0.5 ? seed.y * 200 * -1 : seed.y * 200;
+    return velocity;
+  }
 }
