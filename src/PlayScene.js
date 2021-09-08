@@ -67,7 +67,20 @@ export default class PlayScene extends Phaser.Scene {
     this.paddles = [this.playerPaddle, this.AIPaddle];
 
     // Add collider between ball and paddles
-    this.physics.add.collider(this.ball, this.paddles);
+    this.physics.add.collider(this.ball, this.paddles, () => {
+      const ballVelocity = this.ball.body.velocity.x;
+      if (
+        Math.sign(ballVelocity) > 0 &&
+        ballVelocity < gameOptions.ballMaxVelocity
+      ) {
+        this.ball.body.velocity.x += 20;
+      } else if (
+        Math.sign(ballVelocity) < 0 &&
+        ballVelocity > -gameOptions.ballMaxVelocity
+      ) {
+        this.ball.body.velocity.x -= 20;
+      }
+    });
 
     // Add input keys
     this.keys = this.input.keyboard.addKeys('W, S, up, down');
@@ -83,6 +96,8 @@ export default class PlayScene extends Phaser.Scene {
     }
 
     this.AIPaddle.body.setVelocityY(this.ball.body.velocity.y);
+
+    console.log(this.ball.body.velocity.x);
   }
 
   getStartingVelocity() {
