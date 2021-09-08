@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import gameOptions from './gameOptions';
 
 export default class PlayScene extends Phaser.Scene {
   constructor() {
@@ -14,7 +15,12 @@ export default class PlayScene extends Phaser.Scene {
 
   create() {
     const { width, height } = this.sys.game.canvas;
-    const ball = this.add.circle(width / 2, height / 2, 75, 0x000000);
+    const ball = this.add.circle(
+      width / 2,
+      height / 2,
+      gameOptions.ballRadius,
+      0x000000
+    );
     this.physics.add.existing(ball);
     ball.body.setBounce(1, 1).setCollideWorldBounds(true);
     const startingVelocity = this.getRandomVelocity();
@@ -27,8 +33,14 @@ export default class PlayScene extends Phaser.Scene {
   getRandomVelocity() {
     const seed = { x: Math.random(), y: Math.random() };
     let velocity = {};
-    velocity.x = seed.x < 0.5 ? seed.x * 200 * -1 : seed.x * 200;
-    velocity.y = seed.y < 0.5 ? seed.y * 200 * -1 : seed.y * 200;
+    velocity.x =
+      seed.x < 0.5
+        ? seed.x * gameOptions.maxStartingVelocity * -1
+        : seed.x * gameOptions.maxStartingVelocity;
+    velocity.y =
+      seed.y < 0.5
+        ? seed.y * gameOptions.maxStartingVelocity * -1
+        : seed.y * gameOptions.maxStartingVelocity;
     return velocity;
   }
 }
