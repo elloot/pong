@@ -81,6 +81,8 @@ export default class PlayScene extends Phaser.Scene {
     } else {
       this.playerPaddle.body.setVelocityY(0);
     }
+
+    this.AIPaddle.body.setVelocityY(this.ball.body.velocity.y);
   }
 
   getStartingVelocity() {
