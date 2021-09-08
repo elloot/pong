@@ -31,6 +31,14 @@ export default class PlayScene extends Phaser.Scene {
     ball.body.setVelocityX(startingVelocity.x);
     ball.body.setVelocityY(startingVelocity.y);
 
+    // If the ball collides with the left or right bounds, the game is over (ish)
+    ball.body.onWorldBounds = true;
+    this.physics.world.on('worldbounds', (_body, _up, _down, left, right) => {
+      if (left || right) {
+        this.scene.start('end');
+      }
+    });
+
     // Set up paddles
     this.playerPaddle = this.add.rectangle(
       gameOptions.paddleWidth / 2,
@@ -58,8 +66,10 @@ export default class PlayScene extends Phaser.Scene {
 
     this.paddles = [this.playerPaddle, this.AIPaddle];
 
+    // Add collider between ball and paddles
     this.physics.add.collider(ball, this.paddles);
 
+    // Add input keys
     this.keys = this.input.keyboard.addKeys('W, S, up, down');
   }
 
