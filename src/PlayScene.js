@@ -17,22 +17,22 @@ export default class PlayScene extends Phaser.Scene {
     const { width, height } = this.sys.game.canvas;
 
     // Set up ball
-    const ball = this.add.circle(
+    this.ball = this.add.circle(
       width / 2,
       height / 2,
       gameOptions.ballRadius,
       0x000000
     );
     this.physics.add
-      .existing(ball)
+      .existing(this.ball)
       .body.setBounce(1, 1)
       .setCollideWorldBounds(true);
     const startingVelocity = this.getStartingVelocity();
-    ball.body.setVelocityX(startingVelocity.x);
-    ball.body.setVelocityY(startingVelocity.y);
+    this.ball.body.setVelocityX(startingVelocity.x);
+    this.ball.body.setVelocityY(startingVelocity.y);
 
     // If the ball collides with the left or right bounds, the game is over (ish)
-    ball.body.onWorldBounds = true;
+    this.ball.body.onWorldBounds = true;
     this.physics.world.on('worldbounds', (_body, _up, _down, left, right) => {
       if (left || right) {
         this.scene.start('end');
@@ -67,7 +67,7 @@ export default class PlayScene extends Phaser.Scene {
     this.paddles = [this.playerPaddle, this.AIPaddle];
 
     // Add collider between ball and paddles
-    this.physics.add.collider(ball, this.paddles);
+    this.physics.add.collider(this.ball, this.paddles);
 
     // Add input keys
     this.keys = this.input.keyboard.addKeys('W, S, up, down');
