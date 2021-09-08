@@ -14,12 +14,13 @@ export default class PlayScene extends Phaser.Scene {
   }
 
   create() {
-    const { width, height } = this.sys.game.canvas;
+    this.width = this.sys.game.canvas.width;
+    this.height = this.sys.game.canvas.height;
 
     // Set up ball
     this.ball = this.add.circle(
-      width / 2,
-      height / 2,
+      this.width / 2,
+      this.height / 2,
       gameOptions.ballRadius,
       0x000000
     );
@@ -34,15 +35,21 @@ export default class PlayScene extends Phaser.Scene {
     // If the ball collides with the left or right bounds, the game is over (ish)
     this.ball.body.onWorldBounds = true;
     this.physics.world.on('worldbounds', (_body, _up, _down, left, right) => {
-      if (left || right) {
-        this.scene.start('end');
+      if (left) {
+        this.game.global.AIScore++;
+        this.AIScore.setText(this.game.global.AIScore);
+        this.reset();
+      } else if (right) {
+        this.game.global.playerScore++;
+        this.playerScore.setText(this.game.global.playerScore);
+        this.reset();
       }
     });
 
     // Set up paddles
     this.playerPaddle = this.add.rectangle(
       gameOptions.paddleWidth / 2,
-      height / 2,
+      this.height / 2,
       gameOptions.paddleWidth,
       gameOptions.paddleHeight,
       0x000000
@@ -53,8 +60,8 @@ export default class PlayScene extends Phaser.Scene {
       .setImmovable(true);
 
     this.AIPaddle = this.add.rectangle(
-      width - gameOptions.paddleWidth / 2,
-      height / 2,
+      this.width - gameOptions.paddleWidth / 2,
+      this.height / 2,
       gameOptions.paddleWidth,
       gameOptions.paddleHeight,
       0x000000
@@ -84,6 +91,26 @@ export default class PlayScene extends Phaser.Scene {
 
     // Add input keys
     this.keys = this.input.keyboard.addKeys('W, S, up, down');
+
+    // Show score
+    this.playerScore = this.add.text(
+      this.width / 6,
+      gameOptions.scoreFontSize / 2,
+      this.game.global.playerScore,
+      {
+        fontFamily: 'sans-serif',
+        fontSize: gameOptions.scoreFontSize + 'px'
+      }
+    );
+    this.AIScore = this.add.text(
+      this.width - this.width / 6,
+      gameOptions.scoreFontSize / 2,
+      this.game.global.AIScore,
+      {
+        fontFamily: 'sans-serif',
+        fontSize: gameOptions.scoreFontSize + 'px'
+      }
+    );
   }
 
   update() {
@@ -96,8 +123,6 @@ export default class PlayScene extends Phaser.Scene {
     }
 
     this.AIPaddle.body.setVelocityY(this.ball.body.velocity.y);
-
-    console.log(this.ball.body.velocity.x);
   }
 
   getStartingVelocity() {
@@ -109,5 +134,9 @@ export default class PlayScene extends Phaser.Scene {
     velocity.x = seed.x * gameOptions.startingVelocity;
     velocity.y = seed.y * gameOptions.startingVelocity;
     return velocity;
+  }
+
+  reset() {
+    this.scene.switch('continue');
   }
 }
