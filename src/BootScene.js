@@ -18,8 +18,8 @@ export default class BootScene extends Phaser.Scene {
   }
 
   update() {
-    this.scene.start('menu');
-    // this.scene.start('play');
-    // this.scene.remove();
+    // this.scene.start('menu');
+    this.scene.start('play');
+    this.scene.remove();
   }
 }
