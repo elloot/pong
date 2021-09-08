@@ -3,6 +3,7 @@ import BootScene from './BootScene';
 import PlayScene from './PlayScene';
 import MenuScene from './MenuScene';
 import EndScene from './EndScene';
+import ContinueScene from './ContinueScene';
 
 export default {
   type: Phaser.AUTO,
@@ -14,5 +15,5 @@ export default {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH
   },
-  scene: [BootScene, MenuScene, PlayScene, EndScene]
+  scene: [BootScene, MenuScene, PlayScene, EndScene, ContinueScene]
 };
