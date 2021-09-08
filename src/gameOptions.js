@@ -4,5 +4,6 @@ export default {
   ballRadius: 40,
   paddleSpeed: 600,
   paddleWidth: 30,
-  paddleHeight: 200
+  paddleHeight: 200,
+  scoreFontSize: 50
 };
