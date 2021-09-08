@@ -27,7 +27,7 @@ export default class PlayScene extends Phaser.Scene {
       .existing(ball)
       .body.setBounce(1, 1)
       .setCollideWorldBounds(true);
-    const startingVelocity = this.getRandomVelocity();
+    const startingVelocity = this.getStartingVelocity();
     ball.body.setVelocityX(startingVelocity.x);
     ball.body.setVelocityY(startingVelocity.y);
 
@@ -73,17 +73,14 @@ export default class PlayScene extends Phaser.Scene {
     }
   }
 
-  getRandomVelocity() {
-    const seed = { x: Math.random(), y: Math.random() };
+  getStartingVelocity() {
+    const seed = {
+      x: Math.random() < 0.5 ? -1 : 1,
+      y: Math.random() < 0.5 ? -1 : 1
+    };
     let velocity = {};
-    velocity.x =
-      seed.x < 0.5
-        ? seed.x * gameOptions.maxStartingVelocity * -1
-        : seed.x * gameOptions.maxStartingVelocity;
-    velocity.y =
-      seed.y < 0.5
-        ? seed.y * gameOptions.maxStartingVelocity * -1
-        : seed.y * gameOptions.maxStartingVelocity;
+    velocity.x = seed.x * gameOptions.startingVelocity;
+    velocity.y = seed.y * gameOptions.startingVelocity;
     return velocity;
   }
 }
