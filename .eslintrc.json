@@ -1,6 +1,6 @@
 {
-  "extends": ["prettier"],
-  "plugins": ["prettier"],
+  "extends": ["prettier", "import", "node", "promise"],
+  "plugins": ["prettier", "import", "node", "promise"],
   "rules": {
     "prettier/prettier": ["error"]
   }
