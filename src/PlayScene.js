@@ -43,6 +43,15 @@ export default class PlayScene extends Phaser.Scene {
       .existing(this.playerPaddle)
       .body.setCollideWorldBounds(true);
 
+    this.AIPaddle = this.add.rectangle(
+      width - gameOptions.paddleWidth / 2,
+      height / 2,
+      gameOptions.paddleWidth,
+      gameOptions.paddleHeight,
+      0x000000
+    );
+    this.physics.add.existing(this.AIPaddle).body.setCollideWorldBounds(true);
+
     this.keys = this.input.keyboard.addKeys('W, S, up, down');
   }
 
