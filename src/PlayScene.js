@@ -48,7 +48,7 @@ export default class PlayScene extends Phaser.Scene {
 
     // Set up paddles
     this.playerPaddle = this.add.rectangle(
-      gameOptions.paddleWidth / 2,
+      gameOptions.paddleWidth,
       this.height / 2,
       gameOptions.paddleWidth,
       gameOptions.paddleHeight,
@@ -60,7 +60,7 @@ export default class PlayScene extends Phaser.Scene {
       .setImmovable(true);
 
     this.AIPaddle = this.add.rectangle(
-      this.width - gameOptions.paddleWidth / 2,
+      this.width - gameOptions.paddleWidth,
       this.height / 2,
       gameOptions.paddleWidth,
       gameOptions.paddleHeight,
