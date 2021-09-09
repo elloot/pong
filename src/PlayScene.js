@@ -93,7 +93,6 @@ export default class PlayScene extends Phaser.Scene {
       const ballPaddleDistanceCoeff =
         ballPaddleDistance /
         (gameOptions.paddleHeight / 2 + gameOptions.ballRadius);
-      console.log(ballPaddleDistanceCoeff);
       const ballNewVelocityY =
         ballPaddleDistanceCoeff * 0.8 * gameOptions.ballMaxVelocity;
       ball.body.setVelocityY(ballNewVelocityY);
