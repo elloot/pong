@@ -74,19 +74,29 @@ export default class PlayScene extends Phaser.Scene {
     this.paddles = [this.playerPaddle, this.AIPaddle];
 
     // Add collider between ball and paddles
-    this.physics.add.collider(this.ball, this.paddles, () => {
-      const ballVelocity = this.ball.body.velocity.x;
+    this.physics.add.collider(this.ball, this.paddles, (ball, paddle) => {
+      const ballVelocityX = ball.body.velocity.x;
       if (
-        Math.sign(ballVelocity) > 0 &&
-        ballVelocity < gameOptions.ballMaxVelocity
+        Math.sign(ballVelocityX) > 0 &&
+        ballVelocityX < gameOptions.ballMaxVelocity
       ) {
         this.ball.body.velocity.x += 20;
       } else if (
-        Math.sign(ballVelocity) < 0 &&
-        ballVelocity > -gameOptions.ballMaxVelocity
+        Math.sign(ballVelocityX) < 0 &&
+        ballVelocityX > -gameOptions.ballMaxVelocity
       ) {
         this.ball.body.velocity.x -= 20;
       }
+
+      // Make the ball go up or down based on where it hits the paddle
+      const ballPaddleDistance = ball.y - paddle.y;
+      const ballPaddleDistanceCoeff =
+        ballPaddleDistance /
+        (gameOptions.paddleHeight / 2 + gameOptions.ballRadius);
+      console.log(ballPaddleDistanceCoeff);
+      const ballNewVelocityY =
+        ballPaddleDistanceCoeff * 0.8 * gameOptions.ballMaxVelocity;
+      ball.body.setVelocityY(ballNewVelocityY);
     });
 
     // Add input keys
