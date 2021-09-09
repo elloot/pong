@@ -135,6 +135,15 @@ export default class PlayScene extends Phaser.Scene {
     let ballPaddleDistance = this.ball.y - this.AIPaddle.y;
     let distanceCoefficient = Math.abs(ballPaddleDistance) / this.height;
     let speedCoefficient = distanceCoefficient * distanceCoefficient;
+    // Easy
+    //speedCoefficient =
+    //0.000729 * Math.pow(8.29 * Math.pow(10, 270), speedCoefficient);
+    // Medium
+    //speedCoefficient =
+    //0.016 * Math.pow(1.74 * Math.pow(10, 154), speedCoefficient);
+    // Hard
+    speedCoefficient =
+      0.1 * Math.pow(9.72 * Math.pow(10, 85), speedCoefficient);
     let newVel =
       Math.sign(ballPaddleDistance) *
       gameOptions.AIPaddleSpeed *
