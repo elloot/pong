@@ -122,7 +122,15 @@ export default class PlayScene extends Phaser.Scene {
       this.playerPaddle.body.setVelocityY(0);
     }
 
-    this.AIPaddle.body.setVelocityY(this.ball.body.velocity.y);
+    // Weird stuff for the AIPaddles velocity
+    let ballPaddleDistance = this.ball.y - this.AIPaddle.y;
+    let distanceCoefficient = Math.abs(ballPaddleDistance) / this.height;
+    let speedCoefficient = distanceCoefficient * distanceCoefficient;
+    let newVel =
+      Math.sign(ballPaddleDistance) *
+      gameOptions.AIPaddleSpeed *
+      speedCoefficient;
+    this.AIPaddle.body.setVelocityY(newVel);
   }
 
   getStartingVelocity() {
