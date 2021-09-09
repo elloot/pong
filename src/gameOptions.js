@@ -1,9 +1,9 @@
 export default {
-  startingVelocity: 300,
+  startingVelocity: 400,
   ballMaxVelocity: 700,
   ballRadius: 10,
   paddleSpeed: 600,
-  AIPaddleSpeed: 10000,
+  AIPaddleSpeed: 50000,
   paddleWidth: 10,
   paddleHeight: 100,
   scoreFontSize: 50
